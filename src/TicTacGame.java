@@ -93,17 +93,17 @@ public class TicTacGame
 
     // To get number of rows(n)
     public int getRows (){
-        return n;
+        return this.n;
     }
 
     // To get number of columns(k)
     public int getColumns (){
-        return m;
+        return this.m;
     }
 
     // To get number of similar cells required to win(k)
     public int getSimilars (){
-        return k;
+        return this.k;
     }
 
     // To get total number of cells (n*k)
