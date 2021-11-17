@@ -92,7 +92,7 @@ public class TheGame {
     {
         int score = 1;
         // for loop to check for the similar cells moving upward along the board
-        for (int count = 1; count <=k; ++count)
+        for (int count = 1; count < k; ++count)
         {
             if (i - count < 0) break;
             if(cells[i-count][j] == cell.EMPTY) break;
@@ -107,7 +107,7 @@ public class TheGame {
             if (cells[i][j] == cells[i+count][j]) score++;
             else break;
         }
-        if (score >= k) return cells[i][j] == cell.X? board.WIN_X: board.WIN_X;
+        if (score >= k) return cells[i][j] == cell.X? board.WIN_X: board.WIN_O;
         System.out.printf("Vertical score %d%n", score);
         return board.INPROGRESS;
     }
@@ -123,7 +123,7 @@ public class TheGame {
         return cells[i][j] == cell.X ? board.WIN_X : board.WIN_O;
     } */
 
-    // To check if there are k similar cells aligned diagonally downward
+    /*// To check if there are k similar cells aligned diagonally downward
     static board downDiagonal(int i, int j, int k, cell[][] cells)
     {
         int count = 1;
@@ -136,10 +136,52 @@ public class TheGame {
             }
         }
         return cells[i][j] == cell.X ? board.WIN_X : board.WIN_O;
+    } */
+
+    //To check if there are k similar cells aligned diagonally from the bottom left to the top right
+
+    static board leftToRightDiagonal(int i, int j, int k, int n, int m,cell cells[][] )
+    {
+        int score = 1;
+       for (int count = 1 ; count<k; ++count)
+       {
+           if(i-count<0 || j+count ==m) break;
+           if(cells[i][j]==cells[i-count][j+count]) score++;
+           else break;
+       }
+       for (int count = 1; score<k; ++count)
+       {
+           if(i+count == n || j-count<0) break;
+           if(cells[i][j] == cells[i+count][j-count]) score++;
+           else break;
+       }
+        if (score >= k) return cells[i][j] == cell.X? board.WIN_X: board.WIN_O;
+        System.out.printf("leftToRightDiagonal %d%n", score);
+        return board.INPROGRESS;
     }
 
-    //To check if there are k similar cells aligned diagonally upward
-    static board upDiagonal(int i, int j, int k, cell[][] cells)
+
+    //To check if there a k similar cells aligned diagonally from the bottom right to the top left
+    static board rightToLeftDiagonal(int i, int j, int k, int n, int m, cell cells[][])
+    {
+        int score = 1;
+        for(int count =1; count<k; ++count)
+        {
+            if(i-count<0 || j-count<0) break;
+            if(cells[i][j] == cells[i-count][j-count]) score++;
+            else break;
+        }
+        for(int count = 1; score<k;++count)
+        {
+            if( i+count == n || j+count == m) break;
+            if(cells[i][j] == cells[i+count][j+count]) score++;
+            else break;
+        }
+        if (score >= k) return cells[i][j] == cell.X? board.WIN_X: board.WIN_O;
+        System.out.printf("RightToLeft: %d%n", score);
+        return board.INPROGRESS;
+    }
+   /* static board upDiagonal(int i, int j, int k, cell[][] cells)
     {
         int count = 1;
         while (count <= k-1)
@@ -155,6 +197,8 @@ public class TheGame {
     }
 
     //To check if there are k similar cells aligned diagonally upward in the opposite direction
+
+
     static board oppUpDiagonal(int i, int j, int k, cell[][] cells)
     {
         int count = 1;
@@ -169,6 +213,8 @@ public class TheGame {
         }
         return cells[i][j] == cell.X ? board.WIN_X : board.WIN_O;
     }
+    */
+
 
     //To check if there are k similar cells aligned diagonally downward in the opposite direction
     static board oppDownDiagonal(int i, int j, int k, cell[][] cells)
@@ -196,13 +242,16 @@ public class TheGame {
         //if (j<m-k+1) result = vertical(i, j, k,cells);
         result = vertical(i, j, k,n,cells);
         if (result != board.INPROGRESS) return result;
-        if (n-k+1>i && m-k+1>j) result = downDiagonal(i, j, k, cells);
+        result = leftToRightDiagonal(i,j,k,n,m,cells);
+        if (result != board.INPROGRESS) return result;
+        result = rightToLeftDiagonal(i,j,k,n,m,cells);
+        /*if (n-k+1>i && m-k+1>j) result = downDiagonal(i, j, k, cells);
         if (result != board.INPROGRESS) return result;
         if (i>k-2 && j<m-k+1) result = upDiagonal(i, j, k, cells);
         if (result != board.INPROGRESS) return result;
         if (i > k-2 && j>k-2) result = oppUpDiagonal(i, j , k, cells);
         if (result != board.INPROGRESS) return result;
-        if (i<n-k+1 && j>k-2) result = oppDownDiagonal(i, j ,k, cells);
+        if (i<n-k+1 && j>k-2) result = oppDownDiagonal(i, j ,k, cells);*/
         return result;
 
 
